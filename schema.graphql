@@ -1,1 +1,859 @@
+type SalesChannel{
+	id: ID!
+	name: String!
+	url: String!
+	authorizationAttribute: String
+}
 
+type Evento{
+	iD: ID!
+	eventOwner: EventOwner!
+	Name: String
+	StartDate: Float
+	EndDate: Float
+	location: location!
+	minumAge: String
+	longDescription: String
+	endDateOfsales: Float
+	EventRecurrence: Boolean
+	EventRecurrenceDay: String
+	EvnetRecurennceEndDate: Float
+	musicGenre: [MusicGenre]
+	musicAmbience: [MusicAmbience]
+	mandatoryQuality: Boolean
+	inputTerms: String
+	annulRrpp: Boolean
+	visible: Boolean
+	activate: Boolean
+	annulRrppEndEvent: Boolean
+	annulRrppAfterSaleThirty: Boolean
+	RrppProduction: [RrppProduct!]
+	channelSale: [channelSale]
+	EventOwner: EventOwner
+	listsEvent: ListsEvent
+	authorizedGroups: [Group]!
+	authorizedSpecialUsers: [User]!
+	ticketConfig: ConfigTicketsEvents
+}
+
+type User{
+	_id: ID
+	uid: ID
+	email: String
+	emailVerified: Boolean
+	displayName: String
+	photoURL: String
+	phoneNumber: String
+	disabled: Boolean
+	role: [String]
+	typeRole: [String]
+	city: String
+	country: String
+	weddingDate: String
+	signUpProgress: String
+	status: Boolean
+	onLine: onLine
+	emailsContacs: [String]
+	visibleColumns: [visibleColumn]
+	createdAt: Date
+	updatedAt: Date
+	eventSelected: ID
+	currency: String
+	authDevelopments: [authDevelopments]
+	sales: SalesChannel
+	authorizedGroups: [Group]!
+	authorizedSpecialUsers: [User]!
+	eventOwner: EventOwner
+}
+
+type onLine{
+	status: Boolean
+	dateConection: Float
+}
+
+type authDevelopments{
+	title: String
+	role: [String]
+	typeRole: [String]
+	status: Boolean
+	nickNames: [nickName]
+	eventSelected: ID
+	metricol: metricol
+	createdAt: Date
+	updatedAt: Date
+}
+
+type metricol{
+	userId: String
+	blogId: String
+	whiteLabelLink: String
+	analyticModeWhitelabelLink: String
+}
+
+type nickName{
+	_id: ID
+	nickName: String
+	socialMedia: [socialMedia]
+	comment: Boolean
+	trackbacks: Boolean
+	imgAvatar: imageNew
+	createdAt: Date
+	updatedAt: Date
+}
+
+type socialMedia{
+	title: String
+	link: String
+	isVisible: Boolean
+}
+
+type imageNew{
+	_id: ID
+	i1024: String
+	i800: String
+	i640: String
+	i320: String
+	videoUrl: String
+	createdAt: Float
+}
+
+type visibleColumn{
+	accessor: String
+	show: Boolean
+}
+
+scalar Date
+
+type location{
+	iD: ID!
+	eventOwner: EventOwner!
+	name: String
+	adress: String
+	long: String
+	latitude: String
+}
+
+type EventOwner{
+	iD: ID!
+	organization: Organization
+	minAge: MinimumAge
+	"""
+	Aqui se guarda la edad  min por cada dia de la semana
+	"""
+	dayWeekAge(
+		age: Int = 18
+		day: String
+	): [String]
+	"""
+	Verificación doble del correo electrónico
+	Activa esta opción para solicitar que los clientes ingresen su correo electrónico dos veces en los formularios de compra, asegurando que la dirección proporcionada sea correcta.
+	"""
+	emailVerification: Boolean
+	"""
+	Distinción de género
+	Activa esta opción si deseas solicitar el género de tus asistentes durante la recepción de tus listas.
+	"""
+	genderDistinction: Boolean
+	"""
+	Anulación de entradas
+	Activa esta opción para que todos los usuarios profesionales puedan anular sus entradas.
+	"""
+	cancellationTickets: Boolean
+	"""
+	periodo de anulacion
+	"""
+	annulEndEvent: Boolean
+	"""
+	periodo de anulacion
+	"""
+	annulAfterSaleThirty: Boolean
+	"""
+	Mostrar recuentos Access
+	Activa esta opción para mostrar el total de ventas en la aplicación de recepción.
+	"""
+	showCounts: Boolean
+	"""
+	Devolución de ventas pasadas
+	Activa esta opción para que los usuarios con permiso de administrador o gestión puedan devolver ventas de eventos pasados.
+	"""
+	salesReturn: Boolean
+	"""
+	Devolución de entradas desde Fourvenues Access
+	Activa esta opción para permitir devolver entradas desde la aplicación de recepción.
+	"""
+	ticketReturns: Boolean
+	termsConditions: String
+	"""
+	Elige si quieres solicitar a tus clientes una segunda confirmación de su reserva y a través de qué medio hacerlo.
+	
+	tiene tres valores "No Reconfirmar", "Enviar por un SMS", "Enviar por correo electrónico"
+	"""
+	secondBookingConfirmation: String
+	"""
+	Selecciona cuándo quieres enviar a tus clientes un SMS o un correo electrónico para que confirmen definitivamente su reserva.
+	es un desplegable que va desde un dia a 7 dias
+	"""
+	whenRequestConfir: Boolean
+	"""
+	Notificación de cambio de estado
+	Activa esta opción para notificar automáticamente al cliente un cambio de estado realizado desde el listado de reservas.
+	"""
+	statusChangeNotifications: Boolean
+	"""
+	Asignación aleatoria de espacios
+	Activa esta opción para asignar espacios aleatorios a tus reservas.
+	"""
+	randomSlotAllocation: Boolean
+	"""
+	Visibilidad de espacios
+	Activa esta opción para que cualquier usuario profesional pueda ver los espacios de las zonas, aunque no pueda seleccionarlos.
+	"""
+	visibilitySpaces: Boolean
+	"""
+	Permitir el pago completo de la reserva
+	Si está activo, se marcará por defecto la opción pago completo al crear una nueva tarifa de reservas
+	"""
+	allowFullPaymentBooking: Boolean
+	"""
+	Anulación de reservas
+	Activa esta opción para que todos los usuarios profesionales puedan anular sus reservas.
+	"""
+	cancellationReservations: Boolean
+	"""
+	Cálculo del precio de las reservas
+	Indica cómo quieres que se calcule el precio de las reservas cuando se exceda el máximo de personas por tarifa.
+	"""
+	bookingPriceCalculation(
+		perBooking: Boolean
+		perFee: Boolean
+	): String
+	"""
+	Servicio de cancelación
+	Al activar esta opción, los tipos de entrada incluirán la posibilidad de añadir un servicio de cancelación sujeto a las condiciones descritas a continuación, que tus clientes podrán adquirir durante el proceso de compra.
+	"""
+	isActive: Boolean!
+	commissionType: CommissionType!
+	commissionValue: Float!
+	maxCancellationPeriod: Int!
+	newGroup: String
+	urlUsers: String
+	groupUsers: Group
+	termsConditionsTitle: String
+	termsConditionDescriptions: String
+	zone: ZoneResevation
+	addDiscountCodeCD: String
+	activeCD: Boolean
+	descriptionAddDiscountCD: String
+	discountAmountAddCD: String
+	percentageOrFixedAmountCD: String
+	minimumAmountLimitsCD: String
+	minimumQuantityLimitsCD: String
+	maximumQuantityLimitsCD: String
+	maximumSalesLimitCD: String
+	redeemableTimesLimitsCD: String
+	ticketsTemplates: ticketTemplates
+	walletDesigns: walletDesigns
+	listsTags: listTags
+	billingData: billingData
+	ubicationOwner: ubicationOwner
+	qrLetter: qrLetter
+	Plan: [Plan]
+}
+
+enum CommissionType{
+	PERCENTAGE
+	FIXED_AMOUNT
+}
+
+type MusicGenre{
+	iD: ID!
+	name: String
+}
+
+type MusicAmbience{
+	iD: ID!
+	name: String
+}
+
+type RrppProduct{
+	iD: ID!
+	name: String
+	Rrpp: [Rrpp]
+	RrppProductionQuantity: String
+	rrppExceptionProduct: RrppExceptionProduct
+	eventOwner: EventOwner!
+}
+
+type Rrpp{
+	iD: ID!
+	User: User
+	eventOwner: EventOwner!
+}
+
+type RrppExceptionProduct{
+	iD: ID!
+	Rrpp: Rrpp!
+	RrppProductionQuantity: String
+	event: Evento!
+	eventOwner: EventOwner!
+}
+
+type PermissionsUser{
+	iD: ID!
+	name: String
+	users: [User!]
+	eventPermissions: Evento
+	typePermissions: [String]
+}
+
+type channelSale{
+	iD: ID!
+	name: String
+	activate: Boolean
+	url: String!
+	authorizationAttribute: String
+}
+
+type ZoneResevation{
+	iD: ID
+	Name: String
+	featuresZone: zoneConfiguration
+	imgMiniature: String
+	daysWeek: String
+	fareZoneGeneral: fareZoneGeneral
+}
+
+type zoneConfiguration{
+	iD: ID!
+	name: String
+	internalDescription: String
+	client: Boolean
+	profesionalUsers: Boolean
+	professionalCollaborators: Boolean
+	autoAcceptClientReserves: Boolean
+	autoAcceptProfessionalCollaborators: Boolean
+	markEntirezone: Boolean
+	showCustomerFloorPlan: Boolean
+	showFlatSpacesCustomers: Boolean
+	imgPromotionalReserveAreas: String
+	manySpaceAddd: String
+	typetable: String
+	minPeople: String
+	maxPeople: String
+	imgSpace: String
+	planeImage: String
+	bookingTime: String
+	availableDays: String
+	fareName: String
+	price: String
+	maxPeople1: String
+	maxExtraPeople: String
+	extraPersonPrice: String
+	includes: String
+	conditions: String
+	bail: String
+	managementPercentage: String
+	managementFeesQuantity: String
+	allowFullPaymentBooking: Boolean
+	allowCashPayment: Boolean
+	enableCustomBonds: Boolean
+}
+
+type fareZoneGeneral{
+	iD: ID!
+	fareName: String
+	price: String
+	maxPeople1: String
+	maxExtraPeople: String
+	extraPersonPrice: String
+	includes: String
+	conditions: String
+	bail: String
+	managementPercentage: String
+	managementFeesQuantity: String
+	allowFullPaymentBooking: Boolean
+	allowCashPayment: Boolean
+	enableCustomBonds: Boolean
+}
+
+type ticketTemplates{
+	iD: ID!
+	name: String
+	lists: Boolean
+	tickets: Boolean
+	passes: Boolean
+	reserves: Boolean
+}
+
+type walletDesigns{
+	iD: ID!
+	designName: String
+	logo: String
+	backgroundColor: String
+	colorNamePassTicket: String
+	colorNameAssistant: String
+	imgSmall: String
+	imgLarge: String
+}
+
+type listTags{
+	iD: ID!
+	name: String
+}
+
+"""
+esta seccion es para agregar la facturacion que desea tener la persona, donde se reflejara los datos de name, como razon social o nombre y apellido, dependiendo del boolean que elija la persona si es empreza o personal, al igual que taxcode que cambia entre DNI o CIF, los demas campos son informacion adicional que agregar y el campo pais es un dropdown
+"""
+type billingData{
+	iD: ID
+	taxCode: String
+	name: String
+	mailingAddress: String
+	zipCode: String
+	country: String
+	city: String
+	companyIndividual: String
+}
+
+type ubicationOwner{
+	iD: ID
+	name: String
+	addresPostal: String
+	long: String
+	latitude: String
+}
+
+type qrLetter{
+	iD: ID!
+	nameActivate: Boolean
+	configurationLetter: qrLetterConfiguration
+}
+
+type qrLetterConfiguration{
+	iD: ID
+	name: String
+	tags: String
+	letterImage: String
+	assignEvent: Evento
+}
+
+type permission{
+	title: String
+	value: String
+}
+
+type UserPermission{
+	id: ID!
+	role: Role!
+	actions: [Action!]!
+}
+
+enum Role{
+	OWNER
+	ADMIN
+	MEMBER
+	VIEWER
+}
+
+enum Action{
+	READ
+	WRITE
+	SHARE
+	DELETE
+}
+
+type Group{
+	id: ID!
+	name: String!
+	members: [User!]!
+	permissions: [UserPermission!]!
+	parentGroup: [Group]
+}
+
+type detalle_compartidos_array{
+	uid: ID
+	email: String
+	displayName: String
+	permissions: [permission]
+	createdAt: Date
+	updatedAt: Date
+}
+
+type ListsEvent{
+	iD: ID!
+	name: String
+	isAvailable: Boolean
+	isPublished: Boolean
+	color: String
+	tagsLists: String
+	maximumListType: String
+	maximumSalesLink: String
+	numberPeopleList: String
+	saveFutureEvents: Boolean
+	duplicateFutureEvents: Boolean
+	closeLists: OptionLists
+	groupsAuthorized: ListauthorizedGroups
+	specialUsersAuthorized: ListauthorizedSpecialUsers
+}
+
+"""
+configuracion de tarifa de entrada
+"""
+enum FormFillType{
+	SINGLE_BUYER
+	MULTIPLE_BUYERS
+}
+
+type ConfigTicketsEvents{
+	iD: ID!
+	name: String
+	color: String
+	isAvailable: Boolean
+	isPublished: Boolean
+	type: EventTypeEnum
+	allPriceWhacht: Boolean
+	maxTicketsForPRLinks: Int
+	minTicketsForPRLinks: Int
+	online: Boolean
+	saleStartDate: Date
+	cancellationService: Boolean
+	cancellationFee: CancellationFee
+	"""
+	boolean principal que activado, abre la opcion para activar otro boolean que se llama urlCaducity, que ese a la vez abre un entero o un int llamado timeUrlC, que es para estableces un numero de hora
+	"""
+	payLink: Boolean
+	urlCaducity: Boolean
+	timeUrlC: Int
+	sendLinksBySMS: Boolean
+	sendLinksByWhatsApp: Boolean
+	printTickets: Boolean
+	terminal: Boolean
+	"""
+	al precionar el boolean, abre un boolean nuevo que se llama priceEdit
+	"""
+	boxOffice: Boolean
+	"""
+	este boolean pertenece a boxOffice que es taquilla, que se activa cuando ese boolean es activado
+	"""
+	priceEdit: Boolean
+	allowNameChange: Boolean
+	nameChangeCost: NameChangeCost
+	cancellationDeadline: Int
+	limitLinkSale: Boolean
+	groupAuthorized: ListauthorizedGroups
+	userAuthorized: ListauthorizedSpecialUsers
+	FormFillType: FormFillType
+	FormTemplate: FormTemplate
+}
+
+type CancellationFee{
+	isPercentage: FeeType
+	value: Float
+}
+
+type NameChangeCost{
+	isPercentage: NameChangeC
+	value: Float
+}
+
+type PlanOptions{
+	price: Float!
+	startTime: String!
+	endTime: String!
+	includes: String!
+	additionalInfo: String
+}
+
+type Plan{
+	name: String!
+	beneficiaries: Int!
+	options: [PlanOptions]!
+}
+
+enum MinimumAge{
+	NO_AGE
+	OVER_14
+	OVER_18
+	BETWEEN_18_AND_40
+}
+
+enum Gender{
+	MALE
+	FEMALE
+}
+
+enum ReservatonDepositType{
+	NO_DEPOSIT
+	FIXED_AMOUNT
+	PERCENTAGE
+}
+
+type ReservationDeposit{
+	ReservationDetype: ReservatonDepositType!
+	amount: Float
+}
+
+type ReservationManagementFees{
+	Feetype: FeeType!
+	value: Float
+}
+
+enum FeeType{
+	PERCENTAGE
+	FIXED_AMOUNT
+}
+
+type ReservationRate{
+	id: ID!
+	name: String!
+	internalDescription: String
+	price: Float!
+	maxNumberOfPeople: Int!
+	extraPeopleMax: Int
+	extraPersonPrice: Float
+	includes: [String!]
+	conditions: String
+	deposit: ReservationDeposit
+	managementFees: ReservationManagementFees
+	allowFullPayment: Boolean!
+	allowCashPayment: Boolean!
+	allowCustomDeposits: Boolean!
+}
+
+type section{
+	_id: ID
+	title: String
+	position: position
+	size: size
+	color: String
+	elements: [element]
+	tables: [table]
+}
+
+type element{
+	_id: ID
+	title: String
+	rotation: Int
+	position: position
+	size: size
+	tipo: String
+}
+
+type chair{
+	planSpaceID: ID
+	sectionID: ID
+	tableID: ID
+	position: Int
+	order: String
+}
+
+type guest{
+	_id: ID
+	chair: Int
+	order: Date
+}
+
+type table{
+	_id: ID
+	title: String
+	rotation: Int
+	position: position
+	size: size
+	tipo: String
+	numberChair: Int
+	guests: [guest]
+}
+
+type planSpace{
+	_id: String
+	title: String
+	size: size
+	spaceChairs: Float
+	template: Boolean
+	sections: [section]
+	elements: [element]
+	tables: [table]
+}
+
+type size{
+	width: Int
+	height: Int
+}
+
+type position{
+	x: Int
+	y: Int
+}
+
+type OptionLists{
+	price: Float!
+	startTime: Date
+	endTime: Date
+	minimumAge: MinimumAge!
+	gender: Gender!
+	includes: String!
+	additionalInfo: String
+}
+
+type OptionPrice{
+	price: Float!
+	startTime: Date
+	endTime: Date
+	includes: String!
+	additionalInfo: String
+}
+
+type ListauthorizedGroups{
+	groupUsers: [Group]
+	unit: Int
+}
+
+type ListauthorizedSpecialUsers{
+	user: [User]!
+	unit: Int
+}
+
+type OpenList{
+	name: String!
+	isAvailable: Boolean
+	isPublished: Boolean
+	optionsOpenList: [OptionLists]!
+	maxCapacityPerOpenList: Int!
+	maxCapacityPerOpenListPro: Int!
+	authorizedGroups: ListauthorizedGroups
+	authorizedSpecialUsers: ListauthorizedSpecialUsers
+}
+
+type Person{
+	id: ID!
+	name: String!
+	email: String
+	phone: String
+	organization: Organization
+	deals: [Deal]
+	activities: [Activity]
+}
+
+type Organization{
+	id: ID!
+	name: String!
+	address: String
+	people: [Person]
+	deals: [Deal]
+	Nombre: String
+	logotipe: String!
+	cover: String!
+	smsSignature: String!
+	nameContact: String!
+	phone: String!
+	email: String!
+	redSocial: String
+	officialWeb: String
+}
+
+type Deal{
+	id: ID!
+	title: String!
+	value: Float
+	stage: DealStage
+	person: Person
+	organization: Organization
+	activities: [Activity]
+}
+
+type Activity{
+	id: ID!
+	type: ActivityType
+	subject: String
+	due_date: Date
+	person: Person
+	deal: Deal
+}
+
+enum DealStage{
+	NEW
+	IN_PROGRESS
+	WON
+	LOST
+}
+
+enum ActivityType{
+	CALL
+	MEETING
+	TASK
+	EMAIL
+}
+
+type EventDetails{
+	iD: ID!
+}
+
+interface TesInterfaceEventos{
+	string: String
+	float: Float
+	iD: ID
+	visibleColumn: visibleColumn
+}
+
+enum EventTypeEnum{
+	PUBLIC
+	LIMITED
+}
+
+enum NameChangeC{
+	FIXED_FEE
+	PRICE_DIFFERENCE
+}
+
+type FormTemplate{
+	id: ID!
+	name: String!
+	fields: [FormField!]
+}
+
+type FormField{
+	id: ID!
+	label: String!
+	type: FieldTypeEnum!
+	isRequired: Boolean!
+	component: String!
+	options: [String]
+}
+
+enum FieldTypeEnum{
+	TEXT
+	NUMBER
+	DATE
+	SELECT
+	CHECKBOX
+}
+
+type PriceOption {
+  	id: ID!
+  	name: String!
+  	description: String!
+	additionalInformation: String
+	includes: String
+  	basePrice: Float!
+  	feeManagement: FeeManagement!
+  	finalPrice: Float! # Calculated field
+  	paymentGatewayFee: Float! # Calculated field
+	ticketLimit: Int
+  	unlimited: Boolean
+  	saleEndDate: Date
+  	timeBeforeEvent: String
+
+}
+
+type FeeManagement {
+  type: FeeType!
+  value: Float!
+}
+
+type PaymentGatewayFee {
+  country: String!
+  cardType: String!
+  gateway: String!
+  currency: String!
+  feePercentage: Float!
+}
